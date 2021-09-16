@@ -1,0 +1,45 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           static-matrix-algebra
+version:        0.1.0.0
+description:    Library for algebraic manipulation (mainly linear) on matrix with type-safe operations.
+homepage:       https://github.com/davidmaamoaix/static-matrix-algebra#readme
+bug-reports:    https://github.com/davidmaamoaix/static-matrix-algebra/issues
+author:         Linxuan Ma
+maintainer:     davidma@davidma.cn
+copyright:      2021 Linxuan Ma
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/davidmaamoaix/static-matrix-algebra
+
+library
+  other-modules:
+      Paths_static_matrix_algebra
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite static-matrix-algebra-test
+  type: exitcode-stdio-1.0
+  main-is: Test.hs
+  other-modules:
+      Paths_static_matrix_algebra
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , static-matrix-algebra
+  default-language: Haskell2010

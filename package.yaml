@@ -1,0 +1,36 @@
+name:                static-matrix-algebra
+version:             0.1.0.0
+github:              "davidmaamoaix/static-matrix-algebra"
+license:             MIT
+author:              "Linxuan Ma"
+maintainer:          "davidma@davidma.cn"
+copyright:           "2021 Linxuan Ma"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Library for algebraic manipulation (mainly linear) on matrix with type-safe operations.
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+tests:
+  static-matrix-algebra-test:
+    main:                Test.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - static-matrix-algebra
