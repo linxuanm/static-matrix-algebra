@@ -23,6 +23,9 @@ source-repository head
   location: https://github.com/davidmaamoaix/static-matrix-algebra
 
 library
+  exposed-modules:
+      Matrix
+      Vector
   other-modules:
       Paths_static_matrix_algebra
   hs-source-dirs:
