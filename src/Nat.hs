@@ -7,7 +7,7 @@
 module Nat where
 
 import Data.Kind (Type)
-import Data.Singletons (Sing)
+import Data.Singletons (sing, Sing, SingI)
 
 data Nat = Zero
          | Succ Nat
@@ -18,6 +18,12 @@ data SNat :: Nat -> Type where
     SSucc :: SNat n -> SNat (Succ n)
 
 type instance Sing = SNat
+
+instance SingI Zero where
+    sing = SZero
+
+instance SingI n => SingI (Succ n) where
+    sing = SSucc sing
 
 type family (m :: Nat) :+: (n :: Nat) :: Nat
 type instance Zero :+: n = n

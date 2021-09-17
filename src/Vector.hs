@@ -8,7 +8,7 @@
 module Vector where
 
 import Data.Kind (Type)
-import Data.Singletons (SingI, sing)
+import Data.Singletons (SingI, Sing, sing)
 
 import Nat
 
@@ -16,8 +16,8 @@ data Vector (n :: Nat) (a :: Type) where
     Nil :: Vector Zero a
     Cons :: a -> Vector n a -> Vector (Succ n) a
 
---vecFromList ::  -> [a] -> Vector n a
---vecFromList = undefined
+instance Show a => Show (Vector n a) where
+    show a = "[ " ++ foldr1 (\a b -> a ++ "  " ++ b) (show <$> a) ++ " ]"
 
 instance Foldable (Vector n) where
     foldr f z Nil = z
@@ -32,8 +32,12 @@ instance Applicative (Vector n) where
     Nil <*> Nil = Nil
     (Cons f fs) <*> (Cons x xs) = Cons (f x) (fs <*> xs)
 
-vecOf :: a -> Vector n a
-vecOf = undefined
+vecOf :: SingI n => a -> Vector n a
+vecOf = inner sing
+    where
+        inner :: Sing n -> a -> Vector n a
+        inner SZero a = Nil
+        inner (SSucc n) a = Cons a (inner n a)
 
 zipVec :: Vector n a -> Vector n b -> Vector n (a, b)
 zipVec Nil Nil = Nil
