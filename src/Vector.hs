@@ -1,4 +1,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -12,7 +14,7 @@ import Data.Singletons (SingI, Sing, sing)
 
 import Nat
 
-data Vector (n :: Nat) (a :: Type) where
+data Vector n a where
     Nil :: Vector Zero a
     Cons :: a -> Vector n a -> Vector (Succ n) a
 
@@ -27,9 +29,12 @@ instance Functor (Vector n) where
     fmap f Nil = Nil
     fmap f (Cons x xs) = Cons (f x) (f <$> xs)
 
-instance Applicative (Vector n) where
-    pure a = undefined--vecOf @(Proxy n) a
-    Nil <*> Nil = Nil
+instance Applicative (Vector Zero) where
+    pure a = Nil
+    _ <*> _ = Nil
+
+instance Applicative (Vector n) => Applicative (Vector (Succ n)) where
+    pure a = Cons a (pure a)
     (Cons f fs) <*> (Cons x xs) = Cons (f x) (fs <*> xs)
 
 vecOf :: SingI n => a -> Vector n a
