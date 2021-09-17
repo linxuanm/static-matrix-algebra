@@ -13,9 +13,11 @@ data Nat = Zero
          | Succ Nat
          deriving (Eq, Show)
 
---data instance Sing :: Nat -> Type where
---    SZero :: Sing Zero
---    SSucc :: Sing n -> Sing (Succ n)
+data SNat :: Nat -> Type where
+    SZero :: SNat Zero
+    SSucc :: SNat n -> SNat (Succ n)
+
+type instance Sing = SNat
 
 type family (m :: Nat) :+: (n :: Nat) :: Nat
 type instance Zero :+: n = n
