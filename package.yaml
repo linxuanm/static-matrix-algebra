@@ -20,6 +20,7 @@ description:         Library for algebraic manipulation (mainly linear) on matri
 
 dependencies:
 - base >= 4.7 && < 5
+- singletons >= 2.2 && < 3
 
 library:
   source-dirs: src
