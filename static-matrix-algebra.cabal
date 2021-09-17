@@ -25,6 +25,7 @@ source-repository head
 library
   exposed-modules:
       Matrix
+      Nat
       Vector
   other-modules:
       Paths_static_matrix_algebra

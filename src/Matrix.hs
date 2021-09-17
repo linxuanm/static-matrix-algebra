@@ -1,10 +1,11 @@
-{-# LANGUAGE TypeFamilies, DataKinds, TypeOperators, GADTs #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE GADTs #-}
 
 module Matrix where
 
-import Data.Kind (Type)
-import GHC.TypeLits (Nat)
-
+import Nat
 import Vector
 
 type Matrix (m :: Nat) (n :: Nat) a = Vector m (Vector n a)
