@@ -45,3 +45,8 @@ instance SingI n => SingI (Succ n) where
 type family (m :: Nat) :+: (n :: Nat) :: Nat
 type instance Zero :+: n = n
 type instance (Succ m) :+: n = Succ (m :+: n)
+
+type family (m :: Nat) :-: (n :: Nat) :: Nat
+type instance Zero :-: _ = Zero
+type instance m :-: Zero = m
+type instance (Succ m) :-: (Succ n) = m :-: n

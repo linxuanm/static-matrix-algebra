@@ -54,6 +54,14 @@ fromList = inner sing
         inner (SSucc n) (x:xs) = Cons x (inner n xs)
         inner _ [] = error "list shorter than expected vector length"
 
+(<+>) :: Vector m a -> Vector n a -> Vector (m :+: n) a
+Nil <+> n = n
+(Cons x xs) <+> n = Cons x (xs <+> n)
+
+dotVec :: Num a => Vector n a -> Vector n a -> a
+dotVec Nil Nil = 0
+dotVec (Cons x xs) (Cons y ys) = x * y + dotVec xs ys
+
 zipVec :: Vector n a -> Vector n b -> Vector n (a, b)
 zipVec Nil Nil = Nil
 zipVec (Cons x xs) (Cons y ys) = Cons (x, y) (zipVec xs ys) 
