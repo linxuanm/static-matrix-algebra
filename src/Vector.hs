@@ -11,6 +11,7 @@ module Vector where
 
 import Data.Kind (Type)
 import Data.Singletons (SingI, Sing, sing)
+import Debug.Trace
 
 import Nat
 
@@ -19,6 +20,7 @@ data Vector n a where
     Cons :: a -> Vector n a -> Vector (Succ n) a
 
 instance Show a => Show (Vector n a) where
+    show Nil = "[ ]"
     show a = "[ " ++ foldr1 (\a b -> a ++ "  " ++ b) (show <$> a) ++ " ]"
 
 instance Foldable (Vector n) where
@@ -43,6 +45,14 @@ vecOf = inner sing
         inner :: Sing n -> a -> Vector n a
         inner SZero a = Nil
         inner (SSucc n) a = Cons a (inner n a)
+
+fromList :: SingI n => [a] -> Vector n a
+fromList = inner sing
+    where
+        inner :: Sing n -> [a] -> Vector n a
+        inner SZero _ = Nil
+        inner (SSucc n) (x:xs) = Cons x (inner n xs)
+        inner _ [] = error "list shorter than expected vector length"
 
 zipVec :: Vector n a -> Vector n b -> Vector n (a, b)
 zipVec Nil Nil = Nil

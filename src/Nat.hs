@@ -13,6 +13,23 @@ data Nat = Zero
          | Succ Nat
          deriving (Eq, Show)
 
+instance Num Nat where
+    Zero + n = n
+    (Succ m) + n = Succ $ m + n
+    m - Zero = m
+    Zero - n = error "negative natural number"
+    (Succ m) - (Succ n) = m - n
+    Zero * _ = Zero
+    _ * Zero = Zero
+    (Succ m) * n = m * n + n
+    abs = id
+    signum Zero = Zero
+    signum (Succ _) = Succ Zero
+    fromInteger x
+        | x < 0 = error "negative natural number"
+        | x == 0 = Zero
+        | otherwise = Succ $ fromInteger $ x - 1
+
 data SNat :: Nat -> Type where
     SZero :: SNat Zero
     SSucc :: SNat n -> SNat (Succ n)
