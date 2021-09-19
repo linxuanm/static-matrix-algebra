@@ -65,6 +65,9 @@ instance IsMat (Vector n a) (Succ Zero) n a where
 instance IsMat (Vector m a) m (Succ Zero) a where
     toMat a = Matrix ((\x -> Cons x Nil) <$> a)
 
+get :: (i :<: n ~ True) => SNat i -> Vector n a -> a
+get = undefined
+
 vecOf :: SingI n => a -> Vector n a
 vecOf = inner sing
     where

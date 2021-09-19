@@ -50,3 +50,8 @@ type family (m :: Nat) :-: (n :: Nat) :: Nat
 type instance Zero :-: _ = Zero
 type instance m :-: Zero = m
 type instance (Succ m) :-: (Succ n) = m :-: n
+
+type family (m :: Nat) :<: (n :: Nat) :: Bool
+type instance _ :<: Zero = False
+type instance Zero :<: (Succ _) = True
+type instance (Succ m) :<: (Succ n) = m :<: n
