@@ -23,4 +23,4 @@ data Vector n a where
 newtype Matrix (m :: Nat) (n :: Nat) a = Matrix (Vector m (Vector n a))
 
 class IsMat mat m n a | mat -> m n where
-    toMat :: mat -> Matrix m n a
+    getMat :: mat -> Matrix m n a

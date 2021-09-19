@@ -60,13 +60,14 @@ instance Applicative (Vector n) => Applicative (Vector (Succ n)) where
     (Cons f fs) <*> (Cons x xs) = Cons (f x) (fs <*> xs)
 
 instance IsMat (Vector n a) (Succ Zero) n a where
-    toMat = Matrix . flip Cons Nil
+    getMat = Matrix . flip Cons Nil
 
 instance IsMat (Vector m a) m (Succ Zero) a where
-    toMat a = Matrix ((\x -> Cons x Nil) <$> a)
+    getMat a = Matrix ((\x -> Cons x Nil) <$> a)
 
 get :: (i :<: n ~ True) => SNat i -> Vector n a -> a
-get = undefined
+get (SZero) (Cons x _) = x
+get (SSucc n) (Cons _ xs) = get n xs
 
 vecOf :: SingI n => a -> Vector n a
 vecOf = inner sing
