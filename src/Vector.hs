@@ -1,6 +1,7 @@
+{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -15,6 +16,12 @@ import Debug.Trace
 
 import Nat
 import Structs
+
+instance Eq a => Eq (Vector Zero a) where
+    (==) = const . const True
+
+instance (Eq a, Eq (Vector n a)) => Eq (Vector (Succ n) a) where
+    (Cons x xs) == (Cons y ys) = x == y && xs == ys
 
 instance Num a => Num (Vector Zero a) where
     Nil + Nil = Nil
@@ -51,6 +58,12 @@ instance Applicative (Vector Zero) where
 instance Applicative (Vector n) => Applicative (Vector (Succ n)) where
     pure a = Cons a (pure a)
     (Cons f fs) <*> (Cons x xs) = Cons (f x) (fs <*> xs)
+
+instance IsMat (Vector n a) (Succ Zero) n a where
+    toMat = Matrix . flip Cons Nil
+
+instance IsMat (Vector m a) m (Succ Zero) a where
+    toMat a = Matrix ((\x -> Cons x Nil) <$> a)
 
 vecOf :: SingI n => a -> Vector n a
 vecOf = inner sing

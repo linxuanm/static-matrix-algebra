@@ -1,4 +1,4 @@
---{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -22,11 +22,5 @@ data Vector n a where
 
 newtype Matrix (m :: Nat) (n :: Nat) a = Matrix (Vector m (Vector n a))
 
-class MatMul mat m n a where
-    toMat :: mat n a -> Matrix m n a
-
-instance MatMul (Matrix m) m n a where
-    toMat = id
-
-instance MatMul Vector (Succ Zero) n a where
-    toMat = Matrix . flip Cons Nil
+class IsMat mat m n a | mat -> m n where
+    toMat :: mat -> Matrix m n a
