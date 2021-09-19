@@ -20,5 +20,11 @@ instance IsMat (Matrix m n a) m n a where
 toMat :: (SingI m, SingI n) => [[a]] -> Matrix m n a
 toMat xs = Matrix $ toVec $ toVec <$> xs
 
+row :: Int -> Matrix m n a -> Vector n a
+row = undefined
+
+col :: Int -> Matrix m n a -> Vector m a
+col = undefined
+
 (<@>) :: (Num a, IsMat x m n a, IsMat y n o a) => x -> y -> Matrix m o a
 (<@>) = undefined
