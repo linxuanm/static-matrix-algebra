@@ -14,10 +14,23 @@ import Data.Singletons (SingI, Sing, sing)
 import Debug.Trace
 
 import Nat
+import Structs
 
-data Vector n a where
-    Nil :: Vector Zero a
-    Cons :: a -> Vector n a -> Vector (Succ n) a
+instance Num a => Num (Vector Zero a) where
+    Nil + Nil = Nil
+    Nil - Nil = Nil
+    Nil * Nil = Nil
+    fromInteger _ = Nil
+    abs _ = Nil
+    signum _ = Nil
+
+instance (Num a, Num (Vector n a)) => Num (Vector (Succ n) a) where
+    (Cons x xs) + (Cons y ys) = Cons (x + y) (xs + ys)
+    (Cons x xs) - (Cons y ys) = Cons (x - y) (xs - ys)
+    (Cons x xs) * (Cons y ys) = Cons (x * y) (xs * ys)
+    fromInteger a = Cons (fromInteger a) (fromInteger a)
+    abs = fmap abs
+    signum = fmap signum
 
 instance Show a => Show (Vector n a) where
     show Nil = "[ ]"
@@ -46,8 +59,8 @@ vecOf = inner sing
         inner SZero a = Nil
         inner (SSucc n) a = Cons a (inner n a)
 
-fromList :: SingI n => [a] -> Vector n a
-fromList = inner sing
+toVec :: SingI n => [a] -> Vector n a
+toVec = inner sing
     where
         inner :: Sing n -> [a] -> Vector n a
         inner SZero _ = Nil

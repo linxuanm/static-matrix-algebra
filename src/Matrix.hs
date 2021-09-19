@@ -5,7 +5,11 @@
 
 module Matrix where
 
+import Data.Singletons (SingI)
+
 import Nat
 import Vector
+import Structs
 
-type Matrix (m :: Nat) (n :: Nat) a = Vector m (Vector n a)
+--toMat :: (SingI m, SingI n) => [[a]] -> Matrix m n a
+--toMat xs = toVec $ toVec <$> xs
